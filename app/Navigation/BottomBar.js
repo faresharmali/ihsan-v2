@@ -15,7 +15,6 @@ import {
 } from "@expo/vector-icons";
 import React from "react";
 import styles from "./styles"
-import { useNavigation } from "@react-navigation/native";
 
 export default function BottomBar({navigation}) {
 
@@ -44,16 +43,6 @@ export default function BottomBar({navigation}) {
             <Text style={styles.bottomBarITemText}>العائلات</Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => navigation.navigate("FamiliesMap")}
-        >
-          <View style={styles.bottomBarITem}>
-            <Icon as={MaterialIcons} name="family-restroom" color={"#fff"} size={4} />
-
-            <Text style={styles.bottomBarITemText}>الخريطة</Text>
-          </View>
-        </TouchableOpacity>
-
         <TouchableOpacity
           onPress={() => navigation.navigate("Kofal")}
         >

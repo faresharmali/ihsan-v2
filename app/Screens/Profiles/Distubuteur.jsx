@@ -37,7 +37,8 @@ export default function Distributeur({ route, navigation }) {
       data: data,
     };
   };
-  const Familli = useSelector((state) => state.Families);
+  const Famillies = useSelector((state) => state.Families).filter((f) =>f.wasseet?._id == route.params._id);
+
   const StateUser = useSelector((state) => state.users).filter(
     (u) => u.id == route.params.id
   )[0];
@@ -125,7 +126,7 @@ export default function Distributeur({ route, navigation }) {
               <Text style={styles.NavigationItemText}>معلومات</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => setSection("children")}>
+          <TouchableOpacity onPress={() => setSection("famillies")}>
             <View style={styles.NavigationItem}>
               <Text style={styles.NavigationItemText}>العائلات</Text>
             </View>
@@ -141,15 +142,14 @@ export default function Distributeur({ route, navigation }) {
       {section == "infos" && (
         <UserInfos title="معلومات العضو" data={StateUser} />
       )}
-      {section == "children" && (
+      {section == "famillies" && (
         <>
           <ScrollView style={styles.Content}>
-            {StateUser.famillies &&
-              StateUser.famillies.map((f) => (
+            {route.params.followers?.map((f) => (
                 <FamilyInfosContainer
                   key={f._id}
                   AvatarSize={40}
-                  data={Familli.filter((fa) => fa.id == f.id)[0]}
+                  data={f}
                   pic={Family}
                   selectFamily={selectFamily}
                 />

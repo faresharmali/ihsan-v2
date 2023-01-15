@@ -35,7 +35,7 @@ export default function AddChild({ route, navigation }) {
   const [month, setMonth] = useState("الشهر");
 
   const [ChildData, setChildData] = useState({
-    id: uuid.v4(),
+    identifier: uuid.v4(),
     name: "",
     day: "",
     month: "",
@@ -99,7 +99,7 @@ export default function AddChild({ route, navigation }) {
     Keyboard.dismiss();
     if (validate()) {
       const res = await AddKid({
-        id: route.params.id,
+        id: route.params._id,
         kid: {
           ...ChildData,
           day: ChildData.day.length >1 ? ChildData.day : "0"+ChildData.day,

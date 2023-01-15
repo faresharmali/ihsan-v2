@@ -4,7 +4,6 @@
     "slug": "ihsan",
     "version": "1.0.1",
     "orientation": "portrait",
-
     "icon": "./assets/Icon.png",
     "splash": {
       "image": "./assets/splash2.png",
@@ -14,7 +13,9 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true
     },
@@ -24,11 +25,15 @@
         "backgroundColor": "#FFFFFF"
       },
       "googleServicesFile": "./google-services.json",
-
       "package": "com.fares081998.Ihsan"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "625dbffe-5616-4ea7-825a-4de783ce8119"
+      }
     }
   }
 }

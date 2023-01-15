@@ -31,10 +31,7 @@ export default function FamilyScreen({ route, navigation }) {
   let family = useSelector(
     (state) => state.Families.filter((f) => f._id == route.params._id)[0]
   );
-  let kids = [];
-  family.kids.forEach((k) => {
-    kids.push({ ...k, lastName: family.fatherLastName, familyId: family.id });
-  });
+
   let Demands = useSelector((state) => state.Informations).filter(
     (info) =>
       info.famillies.some((family) => family.id === route.params.id) &&
@@ -111,7 +108,7 @@ export default function FamilyScreen({ route, navigation }) {
       {section == "children" && (
         <>
           <ScrollView style={styles.Content}>
-            <Kids kids={kids} viewKid={viewKid} />
+            <Kids kids={family.children} viewKid={viewKid} />
           </ScrollView>
           <TouchableOpacity
             onPress={() =>

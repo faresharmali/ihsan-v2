@@ -10,10 +10,18 @@ import { Input, Stack, Icon } from "native-base";
 import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import { Button } from "react-native-paper";
 import { UpdateProfileInfo } from "../api/user";
+import { useDispatch } from "react-redux";
 export default function UpdateProfile({ route, navigation }) {
 
   const [ErrorMessageVisible, setErrorMessageVisible] = useState(false);
   const [ErrorMessage, setErrorMessage] = useState("");
+  const dispatch = useDispatch();
+  const setLoggedUser = (data) => {
+    return {
+      type: "setLoggedUser",
+      data: data,
+    };
+  };
 
   const [errors, SetErrors] = useState({
     username: false,
@@ -27,6 +35,7 @@ export default function UpdateProfile({ route, navigation }) {
 
   const [userInfos, setuserInfos] = useState({
     ...route.params.Infos,
+    password: "",
   });
 
   const handleUserInput = (text, name) => {
@@ -45,7 +54,6 @@ export default function UpdateProfile({ route, navigation }) {
  
 
   const UpdateUserInfos = async () => {
-    let error=false
     Keyboard.dismiss();
     if (validate()) {
       if (userInfos.password.trim()!="" ) {
@@ -56,20 +64,24 @@ export default function UpdateProfile({ route, navigation }) {
         }else{
           const user = { ...userInfos };
           const res = await UpdateProfileInfo({ ...user });
+
           if (res.ok) {
-            navigation.goBack();
+            dispatch(setLoggedUser(res.data));
+            navigation.navigate("UserProfile");
           } else {
           }
         }
       } 
-    } else {
-     delete userInfos.password
+     else {
      const user = { ...userInfos };
+     delete user.password
      const res = await UpdateProfileInfo({ ...user });
      if (res.ok) {
-       navigation.goBack();
+      dispatch(setLoggedUser(res.data));
+       navigation.navigate("UserProfile");
      } else {
      }
+    }
     }
   };
 
@@ -89,6 +101,7 @@ export default function UpdateProfile({ route, navigation }) {
     SetErrors(FieldErrors);
     return valid;
   };
+
 
   return (
     <View style={styles.Container}>

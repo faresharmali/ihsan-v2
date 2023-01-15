@@ -24,12 +24,8 @@ import Toast from "react-native-toast-message";
 import toastConfig from "../../../Components/ToastConfiguration";
 import { UpdateFamilyInfos } from "../../../api/family";
 export default function KidProfile({ route, navigation }) {
-  let Families = useSelector((state) => state.Families);
-  let family = Families.filter((f) => f.id == route.params.kid.familyId)[0];
-  console.log("paramss", route.params)
-  console.log("familss", family)
-  let kid = family.kids.filter((k) => k.id == route.params.kid.id)[0];
-  kid = { ...kid, lastName: family.fatherLastName, familyId: family.id };
+  let family = useSelector((state) => state.Families).filter((f) => f._id == route.params.kid.Family)[0]
+  let kid = { ...route.params.kid, lastName: family.fatherLastName, familyId: family.id };
   const [section, setSection] = useState("infos");
   const [refresh, setRefresh] = useState(false);
 
@@ -52,9 +48,7 @@ export default function KidProfile({ route, navigation }) {
 
   const updateInfos = async (infos) => {
     let family = Families.filter((f) => f.id == infos.familyId)[0];
-    let kids = family.kids.filter((k) => k.id != infos.id);
-    kids.push(infos);
-    family.kids = [...kids];
+
     const res = await UpdateFamilyInfos(family);
     if (res.ok) {
       route.params.fetchFamillies();

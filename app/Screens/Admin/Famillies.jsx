@@ -94,7 +94,6 @@ export default function Families({ navigation, drawer }) {
 
     ]
     PrintData("قائمة العائلات", headings, Displayedfamillies.map((t) => ({ name: t.motherFullName, father: t.fatherFirstName + " " + t.fatherLastName, address: t.adresse, phone: t.phone, donation: t.donation, wasset: t.wasseet })))
-
   }
   return (
     <View style={styles.container}>

@@ -3,7 +3,7 @@ const Famillies = [];
 const AddChild = (state, action) => {
   state.forEach((family) => {
     if (family.id == action.data.id) {
-      family.kids=[...family.kids,action.data]
+      family.children=[...family.children,action.data]
     }
   });
   return state;

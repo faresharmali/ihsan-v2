@@ -34,7 +34,7 @@ export default function Orphans({ navigation, drawer }) {
   useEffect(() => {
     let kids = [];
     MyFamilies.forEach((f) => {
-      f.kids.forEach((k) => {
+      f.children.forEach((k) => {
         kids.push({
           familyId: f.id,
           ...k,

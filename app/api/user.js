@@ -239,6 +239,7 @@ export const UpdateDonator = async (data) => {
   };
   
   export const UpdateProfileInfo = async (data) => {
+    console.log("called", data);
     try {
       const res = await axios.post(api + "/users/updateprofile", data, {
         headers: {

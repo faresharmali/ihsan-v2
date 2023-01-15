@@ -26,8 +26,7 @@ export default function AddFamily({ route, navigation }) {
   let users = useSelector((state) => state.users).filter(
     (d) => d.job.trim() == "وسيط اجتماعي"
   );
-
-  let allUSers = users.map((u) => ({ title: u[0] }));
+  let allUSers = users.map((u) => ({ title: u[0],value:u._id }));
   const [errors, SetErrors] = useState({
     fatherFirstName: false,
     fatherLastName: false,
@@ -117,9 +116,9 @@ export default function AddFamily({ route, navigation }) {
     return valid;
   };
 
-  const ChooseJob = (wasseet) => {
+  const ChooseJob = (wasseet,wasseetId) => {
     SetErrors({ ...errors, wasseet: false });
-    setuserInfos({ ...userInfos, wasseet: wasseet });
+    setuserInfos({ ...userInfos, wasseet: wasseetId });
     setwasseet(wasseet);
     setIsPanelActive(false);
     setshowButton(true);

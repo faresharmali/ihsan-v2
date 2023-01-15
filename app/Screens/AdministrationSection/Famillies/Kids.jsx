@@ -14,13 +14,13 @@ export default function Kids(props) {
       {props.kids.map((k) => (
         <TouchableOpacity
           onPress={() => props.viewKid(k)}
-          key={k.id}
+          key={k.identifier}
           style={styles.DataContainer}
         >
           <Image source={Kid} style={styles.avatar} />
           <View style={styles.infos}>
             <Text style={styles.UserPersonal}>
-              {k.name} {k.lastName} {props.lastName}
+              {k.name} {k.lastName} {props.lastName} 
             </Text>
             <View style={styles.secondaryInfos}>
               <Icon
