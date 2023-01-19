@@ -108,7 +108,7 @@ export default function FamilyScreen({ route, navigation }) {
       {section == "children" && (
         <>
           <ScrollView style={styles.Content}>
-            <Kids kids={family.children} viewKid={viewKid} />
+            <Kids kids={family?.children} viewKid={viewKid} />
           </ScrollView>
           <TouchableOpacity
             onPress={() =>

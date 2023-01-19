@@ -11,7 +11,6 @@ import {
 import React, { useState, useEffect } from "react";
 import { Icon } from "native-base";
 import {
-  MaterialCommunityIcons,
   Ionicons,
   AntDesign,
 } from "@expo/vector-icons";
@@ -151,7 +150,16 @@ export default function Distributeur({ route, navigation }) {
                   AvatarSize={40}
                   data={f}
                   pic={Family}
-                  selectFamily={selectFamily}
+                  selectFamily={()=>{}}
+                />
+              ))}
+            {route.params.deliveries?.map((f) => (
+                <FamilyInfosContainer
+                  key={f._id}
+                  AvatarSize={40}
+                  data={f}
+                  pic={Family}
+                  selectFamily={()=>{}}
                 />
               ))}
           </ScrollView>

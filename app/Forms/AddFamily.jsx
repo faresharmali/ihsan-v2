@@ -19,13 +19,18 @@ export default function AddFamily({ route, navigation }) {
   const [ErrorMessageVisible, setErrorMessageVisible] = useState(false);
   const [ErrorMessage, setErrorMessage] = useState("");
   const [isPanelActive, setIsPanelActive] = useState(false);
+  const [deliveryPannel, setDeliveryPannel] = useState(false);
   const [showButton, setshowButton] = useState(true);
   const [kofa, setKofa] = useState(false);
   const [sick, setMomSick] = useState(false);
   const [wasseet, setwasseet] = useState("الوسيط الاجتماعي");
+  const [delivery, setDelivery] = useState("موزع القفة");
   let users = useSelector((state) => state.users).filter(
     (d) => d.job.trim() == "وسيط اجتماعي"
   );
+  let users2 = useSelector((state) => state.users).filter(
+    (d) => d.job.trim() == "موزع القفة"
+  ).map((u) => ({ title: u[0],value:u._id }));
   let allUSers = users.map((u) => ({ title: u[0],value:u._id }));
   const [errors, SetErrors] = useState({
     fatherFirstName: false,
@@ -48,11 +53,17 @@ export default function AddFamily({ route, navigation }) {
     phone: "",
     donation: "",
     wasseet: "",
+    delivery: "",
     sickness: "",
   });
   const openPanel = () => {
     Keyboard.dismiss();
     setIsPanelActive(true);
+    setshowButton(false);
+  };
+  const openPanel2 = () => {
+    Keyboard.dismiss();
+    setDeliveryPannel(true);
     setshowButton(false);
   };
   const handleUserInput = (text, name) => {
@@ -109,6 +120,9 @@ export default function AddFamily({ route, navigation }) {
     if (userInfos.wasseet.trim() == "") {
       (FieldErrors.wasseet = true), (valid = false);
     }
+    if (userInfos.delivery.trim() == "") {
+      (FieldErrors.delivery = true), (valid = false);
+    }
     if (sick && userInfos.sickness.trim() == "") {
       (FieldErrors.wasseet = true), (valid = false);
     }
@@ -121,6 +135,13 @@ export default function AddFamily({ route, navigation }) {
     setuserInfos({ ...userInfos, wasseet: wasseetId });
     setwasseet(wasseet);
     setIsPanelActive(false);
+    setshowButton(true);
+  };
+  const ChooseDelivery = (delivery,deliveryId) => {
+    SetErrors({ ...errors, delivery: false });
+    setuserInfos({ ...userInfos, delivery: deliveryId });
+    setDelivery(delivery);
+    setDeliveryPannel(false);
     setshowButton(true);
   };
   return (
@@ -361,6 +382,22 @@ export default function AddFamily({ route, navigation }) {
                 <Text style={styles.InputText}>{wasseet} </Text>
               </View>
             </TouchableWithoutFeedback>
+            <TouchableWithoutFeedback onPress={() => openPanel2()}>
+              <View
+                style={{
+                  ...styles.dateContainer,
+                  borderColor: errors.delivery ? "#c21a0e" : "grey",
+                }}
+              >
+                <Icon
+                  as={<MaterialIcons name="lock" />}
+                  size={5}
+                  ml="2"
+                  color="#348578"
+                />
+                <Text style={styles.InputText}>{delivery} </Text>
+              </View>
+            </TouchableWithoutFeedback>
             <Checkbox onChange={(e) => setKofa(e)} value="one" my={2}>
               <Text style={styles.checkBoxText}>تستفيد من القفة الشهرية</Text>
             </Checkbox>
@@ -393,6 +430,14 @@ export default function AddFamily({ route, navigation }) {
         data={allUSers}
         isPanelActive={isPanelActive}
         setIsPanelActive={setIsPanelActive}
+        setshowButton={setshowButton}
+      />
+      <Swipable
+        title="اختيار موزع القفة"
+        ChooseJob={ChooseDelivery}
+        data={users2}
+        isPanelActive={deliveryPannel}
+        setIsPanelActive={setDeliveryPannel}
         setshowButton={setshowButton}
       />
     </View>

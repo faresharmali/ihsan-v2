@@ -28,7 +28,6 @@ export default function Users({ navigation, drawer }) {
   const [UsersList, setUsersList] = useState([]);
 
   const openModal = (u) => {
-    console.log("user", u.followers)
     switch (u.job) {
       case "موزع القفة":
         navigation.navigate("Distributeur", {

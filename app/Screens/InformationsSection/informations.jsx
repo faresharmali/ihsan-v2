@@ -28,7 +28,6 @@ export default function Informations({ navigation, drawer }) {
   const [filteringSection, setfilteringSection] = useState("all");
   const dispatch = useDispatch();
   let Informations = useSelector((state) => state.Informations);
-
   useEffect(() => {
     if (filteringSection == "all") {
       setInformationList(Informations);

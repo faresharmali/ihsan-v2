@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { StyleSheet, Text, View, Dimensions } from 'react-native';
 import { Button } from 'native-base';
-import MapViewDirections from 'react-native-maps-directions';
 import * as Location from 'expo-location';
 import { Marker } from 'react-native-maps';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';

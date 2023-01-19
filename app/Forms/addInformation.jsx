@@ -43,7 +43,7 @@ export default function AddInformation({ route, navigation }) {
     content: "",
     type: InformationType,
     date: new Date(),
-    author: useSelector((state) => state.Auth).name,
+    author: useSelector((state) => state.Auth)._id,
   });
 
   useEffect(() => {

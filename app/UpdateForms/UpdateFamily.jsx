@@ -22,12 +22,11 @@ export default function UpdateFamily({ route, navigation }) {
   const [showButton, setshowButton] = useState(true);
   const [kofa, setKofa] = useState(route.params.infos.kofa);
   const [sick, setMomSick] = useState(route.params.infos.sick);
-  const [wasseet, setwasseet] = useState(route.params.infos.wasseet);
+  const [wasseet, setwasseet] = useState(route.params.infos.wasseet[0].name);
   let users = useSelector((state) => state.users).filter(
     (d) => d.job.trim() == "وسيط اجتماعي"
   );
-
-  let allUSers = users.map((u) => ({ title: u[0] }));
+  let allUSers = users.map((u) => ({ title: u[0],value:u._id }));
   const [errors, SetErrors] = useState({
     fatherFirstName: false,
     fatherLastName: false,
@@ -63,7 +62,7 @@ export default function UpdateFamily({ route, navigation }) {
   const CreateNewUser = async () => {
     Keyboard.dismiss();
     if (validate()) {
-      const res = await UpdateFamilyInfos({ ...userInfos, kofa, sick });
+      const res = await UpdateFamilyInfos({ ...userInfos, kofa, sick,delivery:userInfos.delivery._id });
       if (res.ok) {
         navigation.navigate("Famillies")
       } else {
@@ -107,9 +106,10 @@ export default function UpdateFamily({ route, navigation }) {
     return valid;
   };
 
-  const ChooseJob = (wasseet) => {
+  const ChooseJob = (wasseet,wasseetId) => {
+    console.log(wasseetId);
     SetErrors({ ...errors, wasseet: false });
-    setuserInfos({ ...userInfos, wasseet: wasseet });
+    setuserInfos({ ...userInfos, wasseet: wasseetId });
     setwasseet(wasseet);
     setIsPanelActive(false);
     setshowButton(true);

@@ -9,16 +9,21 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import { Icon } from "native-base";
-import { Ionicons, FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
+import { Ionicons, FontAwesome, MaterialCommunityIcons ,AntDesign} from "@expo/vector-icons";
 
 import man from "../../../assets/avatars/man.png";
 import info from "../../../assets/icons/information.png";
 import DataContainer from "../../Components/DataContainer";
 import { useSelector } from "react-redux";
+import Family from "../../../assets/avatars/family.png";
+
+import FamilyInfosContainer from "../../Components/Containers/FamilyInfosContainer";
 export default function UserProfile({ route, navigation }) {
   const [section, setSection] = useState("infos");
 
   let LoggedUser = useSelector((state) => state.Auth);
+  let User = useSelector((state) => state.users).filter((user)=>user.id==LoggedUser.id)[0];
+
   let Informations = useSelector((state) => state.Informations).filter((info)=>info.author==LoggedUser?.name);
   const openModal = (data) => {
     navigation.navigate("InformationAdmin", {data});
@@ -51,6 +56,13 @@ export default function UserProfile({ route, navigation }) {
               <Text style={styles.NavigationItemText}>معلومات</Text>
             </View>
           </TouchableOpacity>
+          {(LoggedUser.job=="وسيط اجتماعي" || LoggedUser.job=="موزع القفة") && (
+            <TouchableOpacity onPress={() => setSection("famillies")}>
+            <View style={styles.NavigationItem}>
+              <Text style={styles.NavigationItemText}>العائلات</Text>
+            </View>
+          </TouchableOpacity>
+            )}
          
           <TouchableOpacity onPress={() => setSection("posts")}>
             <View style={styles.NavigationItem}>
@@ -62,6 +74,31 @@ export default function UserProfile({ route, navigation }) {
 
       {section == "infos" && (
         <UserInfos title="معلومات العضو" data={LoggedUser} />
+      )}
+           {section == "famillies" && (
+        <>
+          <ScrollView style={styles.Content}>
+            {User.followers?.map((f) => (
+                <FamilyInfosContainer
+                  key={f._id}
+                  AvatarSize={40}
+                  data={f}
+                  pic={Family}
+                  selectFamily={()=>{}}
+                />
+              ))}
+            {User.deliveries?.map((f) => (
+                <FamilyInfosContainer
+                  key={f._id}
+                  AvatarSize={40}
+                  data={f}
+                  pic={Family}
+                  selectFamily={()=>{}}
+                />
+              ))}
+          </ScrollView>
+         
+        </>
       )}
   
       {section == "posts" && (
@@ -153,6 +190,7 @@ const styles = StyleSheet.create({
   Navigation: {
     width: "90%",
     flexDirection: "row-reverse",
+    justifyContent: "space-around",
     backgroundColor: "#fff",
     borderRadius: 10,
     shadowColor: "#000",
@@ -166,7 +204,7 @@ const styles = StyleSheet.create({
   NavigationItem: {
     height: "100%",
     justifyContent: "center",
-    width: 165,
+    width: 100,
     margin: 5,
     marginTop: 0,
     marginBottom: 0,

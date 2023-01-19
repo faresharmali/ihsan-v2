@@ -68,7 +68,8 @@ export default function Information({ route, navigation, updatePath }) {
             <Text style={styles.textTitle}>تفاصيل :</Text> {Info.content}
           </Text>
           <Text style={styles.Text}>
-            <Text style={styles.textTitle}>اضيف من قبل :</Text> {Info.author}
+            <Text style={styles.textTitle}>اضيف من قبل :</Text>{" "}
+            {Info.author?.name}
           </Text>
           <Text style={styles.Text}>
             {" "}
@@ -83,10 +84,9 @@ export default function Information({ route, navigation, updatePath }) {
           </Text>
         </View>
         <View style={styles.People}>
-          <Text style={styles.title}>المعنيين</Text>
-
           {Info.benificier == "orphan" && (
             <>
+              <Text style={styles.title}>المعنيين</Text>
               <Kids kids={Info.kids} viewKid={() => {}} />
             </>
           )}
@@ -94,6 +94,8 @@ export default function Information({ route, navigation, updatePath }) {
             {Info.benificier == "family" &&
               Info.famillies.map((f) => (
                 <>
+                  <Text style={styles.title}>المعنيين</Text>
+
                   <TouchableOpacity style={styles.DataContainer}>
                     <Image source={Family} style={{ width: 40, height: 40 }} />
                     <View style={styles.infos}>

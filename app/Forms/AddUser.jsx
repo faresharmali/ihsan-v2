@@ -13,17 +13,13 @@ import { Button } from "react-native-paper";
 import uuid from "react-native-uuid";
 import Swipable from "../Components/Containers/swipable";
 import { CreateUser } from "../api/user";
-import MultipleOptionSwipable from "../Components/Containers/MultipleOptionSwipable";
 import { useSelector } from "react-redux";
 
 export default function AddUser({ route, navigation }) {
   const [isPanelActive, setIsPanelActive] = useState(false);
-  const [IsModulesPannel, setIsModulesPannel] = useState(false);
   const [showButton, setshowButton] = useState(true);
   const [ErrorMessageVisible, setErrorMessageVisible] = useState(false);
   const [ErrorMessage, setErrorMessage] = useState("");
-  const [FamilliesPlaceholder, setFamilliesPlaceHolder] = useState("العائلات");
-  const [selectedFamillies, setselectedFamillies] = useState([]);
 
   const Famillies = useSelector((state) => state.Families);
   const [errors, SetErrors] = useState({
@@ -90,7 +86,7 @@ export default function AddUser({ route, navigation }) {
       if (userInfos.password == userInfos.confirmepassword) {
         const user = { ...userInfos };
         delete user.confirmepassword;
-        const res = await CreateUser({...user,famillies:selectedFamillies});
+        const res = await CreateUser({...user});
         if (res.ok) {
           route.params.showToast();
           navigation.goBack();
@@ -129,12 +125,7 @@ export default function AddUser({ route, navigation }) {
     if (userInfos.job.trim() == "") {
       (FieldErrors.job = true), (valid = false);
     }
-    if (
-      (job == "موزع القفة") &&
-      selectedFamillies.length == 0
-    ) {
-      (FieldErrors.famillies = true), (valid = false);
-    }
+  
 
     SetErrors(FieldErrors);
     return valid;
@@ -143,9 +134,8 @@ export default function AddUser({ route, navigation }) {
     const backHandler = BackHandler.addEventListener(
       "hardwareBackPress",
       () => {
-        if (isPanelActive || IsModulesPannel) {
+        if (isPanelActive ) {
           setIsPanelActive(false);
-          setIsModulesPannel(false);
           return true;
         } else {
           return false;
@@ -153,32 +143,10 @@ export default function AddUser({ route, navigation }) {
       }
     );
     return () => backHandler.remove();
-  }, [isPanelActive, IsModulesPannel]);
+  }, [isPanelActive]);
 
-  const getSelectedData = (data) => {
-    let overFlow = data.length > 2 ? `... و ${data.length - 2} اخرين` : "";
-    if (data.length > 0) {
-      setFamilliesPlaceHolder(
-        data
-          .map((d) => d.title + " ")
-          .slice(0, 2)
-          .join(",") + overFlow
-      );
-      setselectedFamillies(data.map((family)=>({title:family.title,id:family.id})));
-      SetErrors({ ...errors, famillies: false });
 
-    } else {
-      setselectedFamillies([]);
-      setFamilliesPlaceHolder("العائلات");
-    }
-  };
-  const OpenFamilyModel = () => {
-    Keyboard.dismiss();
-    SetErrors({ ...errors, selections: false });
 
-    setIsModulesPannel(true);
-    setshowButton(false);
-  };
   return (
     <View style={styles.Container}>
       <View style={styles.TitleContainer}>
@@ -335,24 +303,7 @@ export default function AddUser({ route, navigation }) {
             <Text style={styles.InputText}>{job} </Text>
           </View>
         </TouchableWithoutFeedback>
-        {(job == "موزع القفة" || job == "وسيط اجتماعي") && (
-          <TouchableWithoutFeedback onPress={() => OpenFamilyModel()}>
-            <View
-              style={{
-                ...styles.dateContainer,
-                borderColor: errors.famillies ? "#c21a0e" : "grey",
-              }}
-            >
-              <Icon
-                as={<MaterialIcons name="lock" />}
-                size={5}
-                ml="2"
-                color="#348578"
-              />
-              <Text style={styles.InputText}> {FamilliesPlaceholder}</Text>
-            </View>
-          </TouchableWithoutFeedback>
-        )}
+      
       </Stack>
       {ErrorMessageVisible && (
         <View style={styles.ErrorMessage}>
@@ -374,18 +325,7 @@ export default function AddUser({ route, navigation }) {
         setIsPanelActive={setIsPanelActive}
         setshowButton={setshowButton}
       />
-      <MultipleOptionSwipable
-        type={"family"}
-        title="العائلات"
-        getSelectedData={getSelectedData}
-        data={Famillies.map((o) => ({
-          ...o,
-          title: `عائلة  ${o.fatherLastName}`,
-        }))}
-        isPanelActive={IsModulesPannel}
-        setIsPanelActive={setIsModulesPannel}
-        setshowButton={setshowButton}
-      />
+    
     </View>
   );
 }
